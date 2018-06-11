@@ -12,10 +12,10 @@ import java.util.function.Function;
 import static logicaltruth.validation.constraint.ConstraintViolation.ROOT_CONTEXT;
 
 public abstract class Schema<K> implements Constraint<K> {
-  private SortedMap<String, Constraint<K>> fieldConstraintMap = new TreeMap<>();
+  private SortedMap<String, Constraint<K>> constraintMap = new TreeMap<>();
 
   public <T> Schema<K> constraint(String name, Constraint<K> constraint) {
-    fieldConstraintMap.put(name, constraint);
+    constraintMap.put(name, constraint);
     return this;
   }
 
@@ -46,7 +46,7 @@ public abstract class Schema<K> implements Constraint<K> {
   @Override
   public ValidationResult validate(K value) {
     ValidationResult results = new ValidationResult(value);
-    fieldConstraintMap.forEach((name, v) -> {
+    constraintMap.forEach((name, v) -> {
       ValidationResult result = v.validate(value);
       result.getConstraintViolations().forEach(cv -> cv.appendContext(ROOT_CONTEXT + name));
       results.addConstraintViolations(result.getConstraintViolations());
