@@ -12,6 +12,7 @@ import java.util.function.Function;
 import static logicaltruth.validation.CustomerConstraints.CustomerType.ADULT;
 import static logicaltruth.validation.CustomerConstraints.CustomerType.CHILD;
 import static logicaltruth.validation.constraint.common.StringConstraints.contains;
+import static logicaltruth.validation.constraint.common.StringConstraints.stringRequired;
 import static logicaltruth.validation.constraint.common.Value.required;
 import static logicaltruth.validation.fluent.ChoiceHelper.constraintCase;
 import static logicaltruth.validation.fluent.ChoiceHelper.constraintChoice;
@@ -139,7 +140,7 @@ public class ChoiceTests {
   public void constraint_choice_complex() {
 
     Constraint<Customer> adultValidator = new BeanSchema<>(Customer.class)
-      .field("driversLicense", String.class, StringConstraints.stringRequired);
+      .field("driversLicense", String.class, stringRequired);
 
     Constraint<Customer> childValidator = new BeanSchema<>(Customer.class);
 
