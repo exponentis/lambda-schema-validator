@@ -18,7 +18,7 @@ public class ConstraintViolation {
     return context;
   }
 
-  public void appendParentContext(String name) {
+  public void appendContext(String name) {
     if(ROOT_CONTEXT.equals(context)) {
       context = name;
     } else {

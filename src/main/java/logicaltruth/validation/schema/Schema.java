@@ -45,7 +45,7 @@ public abstract class Schema<K> implements Constraint<K> {
     ValidationResult results = new ValidationResult(value);
     fieldConstraintMap.forEach((name, v) -> {
       ValidationResult result = v.validate(value);
-      result.getConstraintViolations().forEach(cv -> cv.appendParentContext(ROOT_CONTEXT + name));
+      result.getConstraintViolations().forEach(cv -> cv.appendContext(ROOT_CONTEXT + name));
       results.addConstraintViolations(result.getConstraintViolations());
     });
 

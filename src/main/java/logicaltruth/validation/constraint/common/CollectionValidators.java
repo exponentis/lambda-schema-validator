@@ -1,7 +1,6 @@
 package logicaltruth.validation.constraint.common;
 
 import logicaltruth.validation.constraint.Constraint;
-import logicaltruth.validation.constraint.ConstraintViolation;
 import logicaltruth.validation.constraint.ValidationResult;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class CollectionValidators {
       ValidationResult vr = constraint.validate(entry);
       vr.getConstraintViolations().forEach(cv -> {
         String name = "[" + i + "]";
-        cv.appendParentContext(name);
+        cv.appendContext(name);
       });
       result.addConstraintViolations(vr.getConstraintViolations());
     });
@@ -37,7 +36,7 @@ public class CollectionValidators {
       ValidationResult vr = constraint.validate(v);
       vr.getConstraintViolations().forEach(cv -> {
         String name = "[" + k + "]";
-        cv.appendParentContext(name);
+        cv.appendContext(name);
       });
 
       result.addConstraintViolations(vr.getConstraintViolations());
