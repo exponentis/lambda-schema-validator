@@ -2,6 +2,8 @@ package logicaltruth.validation;
 
 import logicaltruth.validation.constraint.ValidationResult;
 import logicaltruth.validation.constraint.common.Value;
+import logicaltruth.validation.custom.Address;
+import logicaltruth.validation.custom.Customer;
 import logicaltruth.validation.schema.BeanSchema;
 import logicaltruth.validation.schema.MapSchema;
 import logicaltruth.validation.schema.Schema;
@@ -12,8 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static logicaltruth.validation.CustomerConstraints.customerExists;
-import static logicaltruth.validation.CustomerConstraints.samePasswords;
+import static logicaltruth.validation.custom.CustomerConstraints.customerExists;
+import static logicaltruth.validation.custom.CustomerConstraints.samePasswords;
 import static logicaltruth.validation.constraint.common.CollectionValidators.*;
 import static logicaltruth.validation.constraint.common.IntegerConstraints.*;
 import static logicaltruth.validation.constraint.common.StandardConstraint.withPredicate;

@@ -3,13 +3,15 @@ package logicaltruth.validation;
 import logicaltruth.validation.constraint.Constraint;
 import logicaltruth.validation.constraint.ValidationResult;
 import logicaltruth.validation.choice.Choice;
+import logicaltruth.validation.custom.Customer;
+import logicaltruth.validation.custom.CustomerConstraints;
 import logicaltruth.validation.schema.BeanSchema;
 import org.junit.Test;
 
 import java.util.function.Function;
 
-import static logicaltruth.validation.CustomerConstraints.CustomerType.ADULT;
-import static logicaltruth.validation.CustomerConstraints.CustomerType.CHILD;
+import static logicaltruth.validation.custom.CustomerConstraints.CustomerType.ADULT;
+import static logicaltruth.validation.custom.CustomerConstraints.CustomerType.CHILD;
 import static logicaltruth.validation.constraint.common.StringConstraints.contains;
 import static logicaltruth.validation.constraint.common.StringConstraints.stringRequired;
 import static logicaltruth.validation.constraint.common.Value.required;
