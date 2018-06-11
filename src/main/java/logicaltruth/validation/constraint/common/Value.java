@@ -1,6 +1,7 @@
 package logicaltruth.validation.constraint.common;
 
 import logicaltruth.validation.constraint.Constraint;
+import logicaltruth.validation.constraint.impl.StandardConstraint;
 
 import java.util.List;
 import java.util.Map;

@@ -2,7 +2,7 @@ package logicaltruth.validation.fluent;
 
 import logicaltruth.validation.constraint.Constraint;
 import logicaltruth.validation.constraint.ValidationResult;
-import logicaltruth.validation.constraint.common.StandardConstraint;
+import logicaltruth.validation.constraint.impl.StandardConstraint;
 import logicaltruth.validation.schema.BeanSchema;
 import logicaltruth.validation.schema.MapSchema;
 import logicaltruth.validation.schema.Schema;

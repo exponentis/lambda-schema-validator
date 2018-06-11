@@ -1,7 +1,7 @@
 package logicaltruth.validation.custom;
 
 import logicaltruth.validation.constraint.Constraint;
-import logicaltruth.validation.constraint.common.StandardConstraint;
+import logicaltruth.validation.constraint.impl.StandardConstraint;
 
 public class CustomerConstraints {
   public static Constraint<Customer> customerExists() {

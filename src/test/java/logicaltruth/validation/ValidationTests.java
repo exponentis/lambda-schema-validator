@@ -18,7 +18,7 @@ import static logicaltruth.validation.custom.CustomerConstraints.customerExists;
 import static logicaltruth.validation.custom.CustomerConstraints.samePasswords;
 import static logicaltruth.validation.constraint.common.CollectionValidators.*;
 import static logicaltruth.validation.constraint.common.IntegerConstraints.*;
-import static logicaltruth.validation.constraint.common.StandardConstraint.withPredicate;
+import static logicaltruth.validation.constraint.impl.StandardConstraint.withPredicate;
 import static logicaltruth.validation.constraint.common.StringConstraints.*;
 import static logicaltruth.validation.constraint.common.Value.mapRequired;
 import static logicaltruth.validation.fluent.ValidationHelper.*;
