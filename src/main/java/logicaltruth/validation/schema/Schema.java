@@ -20,8 +20,7 @@ public abstract class Schema<K> implements Constraint<K> {
   }
 
   public <T> Schema<K> projection(String name, Function<K, T> lens, Constraint<T> constraint) {
-    constraint(name, value -> constraint.validate(lens.apply(value)));
-    return this;
+    return constraint(name, value -> constraint.validate(lens.apply(value)));
   }
 
   public <T> Schema<K> field(String name, Class<T> fieldType, Constraint<T> constraint) {
