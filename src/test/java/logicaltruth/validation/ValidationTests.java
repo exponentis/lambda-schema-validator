@@ -520,7 +520,7 @@ public class ValidationTests {
 
     customer.setSomeList(Arrays.asList(1, 3, 4, 2, 0));
 
-    customer.setSomeMap(new HashMap<Object, String>() {{
+    customer.setSomeMap(new HashMap<String, String>() {{
       put("a", "x1");
       put("b", "xyz");
       put("c", "x2");
@@ -563,7 +563,7 @@ public class ValidationTests {
 
     customer.setSomeList(Arrays.asList(1, 3, 4, 2, 6));
 
-    customer.setSomeMap(new HashMap<Object, String>() {{
+    customer.setSomeMap(new HashMap<String, String>() {{
       put("a", "x1");
       put("b", "yz");
       put("c", "x2");

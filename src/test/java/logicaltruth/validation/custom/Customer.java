@@ -10,7 +10,7 @@ public class Customer {
   private String password1;
   private String password2;
   private List<Integer> someList;
-  private Map<Object, String> someMap;
+  private Map<String, String> someMap;
 
   private Address address;
   private Map address2;
@@ -63,11 +63,11 @@ public class Customer {
     this.someList = someList;
   }
 
-  public Map<Object, String> getSomeMap() {
+  public Map<String, String> getSomeMap() {
     return someMap;
   }
 
-  public void setSomeMap(Map<Object, String> someMap) {
+  public void setSomeMap(Map<String, String> someMap) {
     this.someMap = someMap;
   }
 
