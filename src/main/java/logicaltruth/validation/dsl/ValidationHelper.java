@@ -7,6 +7,7 @@ import logicaltruth.validation.schema.BeanSchema;
 import logicaltruth.validation.schema.MapSchema;
 import logicaltruth.validation.schema.Schema;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -36,9 +37,7 @@ public class ValidationHelper {
   }
 
   private static void fields(Schema schema, Consumer<Schema>... fields) {
-    for(Consumer<Schema> field : fields) {
-      field.accept(schema);
-    }
+    Arrays.stream(fields).forEach(field -> field.accept(schema));
   }
 
   public static Schema<Map> schema(Consumer<Schema>... fields) {
