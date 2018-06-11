@@ -19,8 +19,7 @@ public class CollectionValidators {
   public static <T> ValidationResult validateList(List<T> value, Constraint<T> constraint) {
     ValidationResult result = new ValidationResult(value);
     IntStream.range(0, value.size()).forEach(i -> {
-      T entry = value.get(i);
-      ValidationResult vr = constraint.validate(entry);
+      ValidationResult vr = constraint.validate(value.get(i));
       vr.getConstraintViolations().forEach(cv -> {
         String name = "[" + i + "]";
         cv.appendContext(name);

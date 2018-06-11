@@ -8,19 +8,19 @@ import java.util.Map;
 
 public class Value {
   public static <T> Constraint<T> required() {
-    return StandardConstraint.<T>withPredicate((s) -> s != null, "must not be null");
+    return StandardConstraint.<T>withPredicate(s -> s != null, "must not be null");
   }
 
   public static <T> Constraint<T> required(Class<T> clazz) {
-    return StandardConstraint.<T>withPredicate((s) -> s != null, "must not be null");
+    return StandardConstraint.<T>withPredicate(s -> s != null, "must not be null");
   }
 
   public static <T> Constraint<T> optional() {
-    return StandardConstraint.<T>withPredicate((s) -> s == null, "must be null");
+    return StandardConstraint.<T>withPredicate(s -> s == null, "must be null");
   }
 
   public static <T> Constraint<T> optional(Class<T> clazz) {
-    return StandardConstraint.<T>withPredicate((s) -> s == null, "must be null");
+    return StandardConstraint.<T>withPredicate(s -> s == null, "must be null");
   }
 
   public static <T> Constraint<List<T>> listRequired() {
