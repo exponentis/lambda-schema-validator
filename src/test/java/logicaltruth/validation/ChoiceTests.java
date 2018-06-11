@@ -11,6 +11,7 @@ import java.util.function.Function;
 
 import static logicaltruth.validation.CustomerConstraints.CustomerType.ADULT;
 import static logicaltruth.validation.CustomerConstraints.CustomerType.CHILD;
+import static logicaltruth.validation.constraint.common.StringConstraints.contains;
 import static logicaltruth.validation.constraint.common.Value.required;
 import static logicaltruth.validation.fluent.ChoiceHelper.constraintCase;
 import static logicaltruth.validation.fluent.ChoiceHelper.constraintChoice;
@@ -52,8 +53,8 @@ public class ChoiceTests {
 
     Function<String, ValidationResult> aSwitch =
       Choice.with(x -> x.length() > 2,
-        constraintCase(true, StringConstraints.contains("a")),
-        constraintCase(false, StringConstraints.contains("b"))
+        constraintCase(true, contains("a")),
+        constraintCase(false, contains("b"))
       );
 
     ValidationResult result = aSwitch.apply("a12");
@@ -74,8 +75,8 @@ public class ChoiceTests {
 
     Constraint<String> constraint =
       constraintChoice(x -> x.length() > 2,
-        constraintCase(true, StringConstraints.contains("a")),
-        constraintCase(false, StringConstraints.contains("b"))
+        constraintCase(true, contains("a")),
+        constraintCase(false, contains("b"))
       );
 
     ValidationResult result = constraint.validate("a12");
@@ -96,8 +97,8 @@ public class ChoiceTests {
 
     Function<String, ValidationResult> aSwitch =
       Choice.with(x -> x.length() > 2,
-        when(true, s -> StringConstraints.contains("a").validate(s)),
-        when(false, asFunction(StringConstraints.contains("b")))
+        when(true, s -> contains("a").validate(s)),
+        when(false, asFunction(contains("b")))
       );
 
     ValidationResult result = aSwitch.apply("a12");
@@ -117,8 +118,8 @@ public class ChoiceTests {
   public void constraint_choice_variation() {
     Constraint<String> constraint = asConstraint(
       Choice.with(x -> x.length() > 2,
-        when(true, s -> StringConstraints.contains("a").validate(s)),
-        when(false, asFunction(StringConstraints.contains("b")))
+        when(true, s -> contains("a").validate(s)),
+        when(false, asFunction(contains("b")))
       ));
 
     ValidationResult result = constraint.validate("a12");
