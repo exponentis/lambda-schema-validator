@@ -13,7 +13,7 @@ public class CustomerConstraints {
   }
 
   public static CustomerType customerType(Customer c) {
-    return c.getAge() > 16 ? CustomerType.ADULT : CustomerType.CHILD;
+    return c.getAge() > 18 ? CustomerType.ADULT : CustomerType.CHILD;
   }
 
   public enum CustomerType {
