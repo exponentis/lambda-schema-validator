@@ -14,14 +14,18 @@ import static logicaltruth.validation.constraint.ConstraintViolation.ROOT_CONTEX
 public abstract class Schema<K> implements Constraint<K> {
   private SortedMap<String, Constraint<K>> fieldConstraintMap = new TreeMap<>();
 
+  public <T> Schema<K> constraint(String name, Constraint<K> constraint) {
+    fieldConstraintMap.put(name, constraint);
+    return this;
+  }
+
   public <T> Schema<K> projection(String name, Function<K, T> lens, Constraint<T> constraint) {
     fieldConstraintMap.put(name, value -> constraint.validate(lens.apply(value)));
     return this;
   }
 
-  public <T> Schema<K> constraint(String name, Constraint<K> constraint) {
-    fieldConstraintMap.put(name, constraint);
-    return this;
+  public <T> Schema<K> field(String name, Class<T> fieldType, Constraint<T> constraint) {
+    return projection(name, fieldGetter(name, fieldType), constraint);
   }
 
   public <T> Schema<K> listField(String name, Constraint<List<T>> constraint) {
@@ -50,10 +54,6 @@ public abstract class Schema<K> implements Constraint<K> {
     });
 
     return results;
-  }
-
-  public <T> Schema<K> field(String name, Class<T> fieldType, Constraint<T> constraint) {
-    return projection(name, fieldGetter(name, fieldType), constraint);
   }
 
   public abstract <T> Function<K, T> fieldGetter(String name, Class<T> fieldType);
