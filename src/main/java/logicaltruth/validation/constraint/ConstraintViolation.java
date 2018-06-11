@@ -1,7 +1,9 @@
 package logicaltruth.validation.constraint;
 
 public class ConstraintViolation {
-  private String context = ".";
+  public static final String ROOT_CONTEXT = ".";
+
+  private String context = ROOT_CONTEXT;
   private String message;
 
   public ConstraintViolation(String message) {
@@ -17,7 +19,7 @@ public class ConstraintViolation {
   }
 
   public void appendParentContext(String name) {
-    if(context == ".") {
+    if(ROOT_CONTEXT.equals(context)) {
       context = name;
     } else {
       context = name.concat(context);

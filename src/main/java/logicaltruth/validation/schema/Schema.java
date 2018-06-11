@@ -9,6 +9,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Function;
 
+import static logicaltruth.validation.constraint.ConstraintViolation.ROOT_CONTEXT;
+
 public abstract class Schema<K> implements Constraint<K> {
   private SortedMap<String, Constraint<K>> fieldConstraintMap = new TreeMap<>();
 
@@ -43,7 +45,7 @@ public abstract class Schema<K> implements Constraint<K> {
     ValidationResult results = new ValidationResult(value);
     fieldConstraintMap.forEach((name, v) -> {
       ValidationResult result = v.validate(value);
-      result.getConstraintViolations().forEach(cv -> cv.appendParentContext("." + name));
+      result.getConstraintViolations().forEach(cv -> cv.appendParentContext(ROOT_CONTEXT + name));
       results.addConstraintViolations(result.getConstraintViolations());
     });
 

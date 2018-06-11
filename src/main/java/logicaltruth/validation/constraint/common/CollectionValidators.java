@@ -6,6 +6,7 @@ import logicaltruth.validation.constraint.ValidationResult;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class CollectionValidators {
   public static <T> Constraint<List<T>> listConstraint(Constraint<T> constraint) {
@@ -18,16 +19,15 @@ public class CollectionValidators {
 
   public static <T> ValidationResult validateList(List<T> value, Constraint<T> constraint) {
     ValidationResult result = new ValidationResult(value);
-    for(int i = 0; i < value.size(); i++) {
+    IntStream.range(0, value.size()).forEach(i -> {
       T entry = value.get(i);
       ValidationResult vr = constraint.validate(entry);
-      for(ConstraintViolation cv : vr.getConstraintViolations()) {
+      vr.getConstraintViolations().forEach(cv -> {
         String name = "[" + i + "]";
         cv.appendParentContext(name);
-      }
-
+      });
       result.addConstraintViolations(vr.getConstraintViolations());
-    }
+    });
     return result;
   }
 
@@ -35,10 +35,10 @@ public class CollectionValidators {
     ValidationResult result = new ValidationResult(value);
     value.forEach((k, v) -> {
       ValidationResult vr = constraint.validate(v);
-      for(ConstraintViolation cv : vr.getConstraintViolations()) {
+      vr.getConstraintViolations().forEach(cv -> {
         String name = "[" + k + "]";
         cv.appendParentContext(name);
-      }
+      });
 
       result.addConstraintViolations(vr.getConstraintViolations());
     });
