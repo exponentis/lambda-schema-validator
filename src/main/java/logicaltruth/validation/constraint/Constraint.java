@@ -55,17 +55,20 @@ public interface Constraint<K> {
   default Constraint<K> orElseThrow() {
     return value -> {
       ValidationResult result = Constraint.this.validate(value);
-      if(!result.isValid())
+      if(!result.isValid()) {
+        //TODO
         throw new RuntimeException("INVALID");
+      }
       return result;
     };
   }
 
-  default Constraint<K> orElseThrow(Throwable t) {
+  default Constraint<K> orElseThrow(RuntimeException t) {
     return value -> {
       ValidationResult result = Constraint.this.validate(value);
-      if(!result.isValid())
-        throw new RuntimeException(t);
+      if(!result.isValid()) {
+        throw t;
+      }
       return result;
     };
   }
