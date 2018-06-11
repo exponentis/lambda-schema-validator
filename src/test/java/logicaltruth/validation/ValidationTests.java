@@ -19,7 +19,6 @@ import static logicaltruth.validation.constraint.common.IntegerConstraints.*;
 import static logicaltruth.validation.constraint.common.StandardConstraint.withPredicate;
 import static logicaltruth.validation.constraint.common.StringConstraints.*;
 import static logicaltruth.validation.constraint.common.Value.mapRequired;
-import static logicaltruth.validation.constraint.common.Value.required;
 import static logicaltruth.validation.fluent.ValidationHelper.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -136,15 +135,15 @@ public class ValidationTests {
     Address address = new Address();
     address.setStreet("0123456789");
 
-    Customer cust = new Customer();
-    cust.setName("abcde");
-    cust.setAge(25);
-    cust.setAddress(address);
+    Customer customer = new Customer();
+    customer.setName("abcde");
+    customer.setAge(25);
+    customer.setAddress(address);
 
-    ValidationResult result = customerSchema.validate(cust);
+    ValidationResult result = customerSchema.validate(customer);
 
     assertEquals(result.isValid(), true);
-    assertEquals(result.getValue(), cust);
+    assertEquals(result.getValue(), customer);
     assertThat(result.getConstraintViolations(), hasSize(0));
   }
 
@@ -161,15 +160,15 @@ public class ValidationTests {
     Address address = new Address();
     address.setStreet("0123456789x");
 
-    Customer cust = new Customer();
-    cust.setName("abcdef");
-    cust.setAge(15);
-    cust.setAddress(address);
+    Customer customer = new Customer();
+    customer.setName("abcdef");
+    customer.setAge(15);
+    customer.setAddress(address);
 
-    ValidationResult result = customerSchema.validate(cust);
+    ValidationResult result = customerSchema.validate(customer);
 
     assertEquals(result.isValid(), false);
-    assertEquals(result.getValue(), cust);
+    assertEquals(result.getValue(), customer);
     assertThat(result.getConstraintViolations(), hasSize(3));
   }
 
@@ -186,15 +185,15 @@ public class ValidationTests {
     Address address = new Address();
     address.setStreet("0123456789");
 
-    Customer cust = new Customer();
-    cust.setName("abcde");
-    cust.setAge(25);
-    cust.setAddress(address);
+    Customer customer = new Customer();
+    customer.setName("abcde");
+    customer.setAge(25);
+    customer.setAddress(address);
 
-    ValidationResult result = customerSchema.validate(cust);
+    ValidationResult result = customerSchema.validate(customer);
 
     assertEquals(result.isValid(), true);
-    assertEquals(result.getValue(), cust);
+    assertEquals(result.getValue(), customer);
     assertThat(result.getConstraintViolations(), hasSize(0));
   }
 
@@ -211,15 +210,15 @@ public class ValidationTests {
     Address address = new Address();
     address.setStreet("0123456789x");
 
-    Customer cust = new Customer();
-    cust.setName("abcde");
-    cust.setAge(15);
-    cust.setAddress(address);
+    Customer customer = new Customer();
+    customer.setName("abcde");
+    customer.setAge(15);
+    customer.setAddress(address);
 
-    ValidationResult result = customerSchema.validate(cust);
+    ValidationResult result = customerSchema.validate(customer);
 
     assertEquals(result.isValid(), false);
-    assertEquals(result.getValue(), cust);
+    assertEquals(result.getValue(), customer);
     assertThat(result.getConstraintViolations(), hasSize(2));
     assertEquals(result.getConstraintViolations().get(0).getContext(), ".address.street");
     assertEquals(result.getConstraintViolations().get(1).getContext(), ".age");
@@ -236,14 +235,14 @@ public class ValidationTests {
       .field("age", Integer.class, integerRequired.orElseBreak().and(greaterThan(18)))
       .field("address", Address.class, Value.<Address>optional().or(addressSchema));
 
-    Customer cust = new Customer();
-    cust.setName("abcde");
-    cust.setAge(25);
+    Customer customer = new Customer();
+    customer.setName("abcde");
+    customer.setAge(25);
 
-    ValidationResult result = customerSchema.validate(cust);
+    ValidationResult result = customerSchema.validate(customer);
 
     assertEquals(result.isValid(), true);
-    assertEquals(result.getValue(), cust);
+    assertEquals(result.getValue(), customer);
     assertThat(result.getConstraintViolations(), hasSize(0));
   }
 
@@ -377,7 +376,6 @@ public class ValidationTests {
           put("inner2", "yb");
         }});
       }});
-
     }};
 
     ValidationResult result = mapSchema.validate(value);
@@ -413,7 +411,6 @@ public class ValidationTests {
           put("inner2", "zb");
         }});
       }});
-
     }};
 
     ValidationResult result = mapSchema.validate(value);
@@ -497,7 +494,6 @@ public class ValidationTests {
       constraint("passwords", samePasswords()),
       constraint("exists", customerExists()),
       field("address", Address.class, addressSchema)
-
     );
 
     Address address = new Address();
@@ -541,7 +537,6 @@ public class ValidationTests {
       constraint("passwords", samePasswords()),
       constraint("exists", customerExists()),
       field("address", Address.class, addressSchema)
-
     );
 
     Address address = new Address();
@@ -612,15 +607,16 @@ public class ValidationTests {
       mapField("someMap", String.class, mapRequired(String.class).orElseBreak().and((mapConstraint(contains("x")))))
     );
 
-    Map customer = new HashMap();
-    customer.put("name", "abcdef");
-    customer.put("age", 25);
-    customer.put("someList", Arrays.asList(1, 3, 7, 2));
-    customer.put("someMap", new HashMap() {{
-      put("a", "x1");
-      put("b", "yz");
-      put("c", "x2");
-    }});
+    Map customer = new HashMap() {{
+      put("name", "abcdef");
+      put("age", 25);
+      put("someList", Arrays.asList(1, 3, 7, 2));
+      put("someMap", new HashMap() {{
+        put("a", "x1");
+        put("b", "yz");
+        put("c", "x2");
+      }});
+    }};
 
     ValidationResult result = customerSchema.validate(customer);
 
@@ -642,7 +638,6 @@ public class ValidationTests {
           mapField("innerInnerMap", String.class, mapRequired(String.class).orElseBreak().and((mapConstraint(contains("x")))))
         )
       )))
-
     );
 
     Map customer = new HashMap() {{
@@ -682,7 +677,6 @@ public class ValidationTests {
           mapField("innerInnerMap", String.class, mapRequired(String.class).orElseBreak().and((mapConstraint(contains("x")))))
         )
       )))
-
     );
 
     Map customer = new HashMap() {{
@@ -729,7 +723,6 @@ public class ValidationTests {
       listField("someList", Map.class, Value.<Map>listRequired().orElseBreak().and(
         l -> validateList(l, m -> validateMap(m, contains("x")))
       ))
-
     );
 
     Map customer = new HashMap() {{
@@ -763,7 +756,6 @@ public class ValidationTests {
       listField("someList", Map.class, Value.<Map>listRequired().orElseBreak().and(
         l -> validateList(l, m -> validateMap(m, contains("x")))
       ))
-
     );
 
     Map customer = new HashMap() {{
@@ -800,7 +792,6 @@ public class ValidationTests {
       mapField("someMap", List.class, Value.<List>mapRequired().orElseBreak().and(
         m -> validateMap(m, l -> validateList(l, max(5)))
       ))
-
     );
 
     Map customer = new HashMap() {{
@@ -810,7 +801,6 @@ public class ValidationTests {
           put("b", Arrays.asList(0, 2, 3));
         }}
       );
-
     }};
 
     ValidationResult result = mapSchema.validate(customer);
@@ -821,7 +811,7 @@ public class ValidationTests {
   }
 
   @Test
-  public void schema_nested_mapt_of_generic_lists_invalid() {
+  public void schema_nested_maps_of_generic_lists_invalid() {
 
     Schema<Map> mapSchema = schema(
       field("name", String.class, stringRequired.and(rangeLength(2, 5))),
@@ -838,7 +828,6 @@ public class ValidationTests {
           put("b", Arrays.asList(9, 2, 3));
         }}
       );
-
     }};
 
     ValidationResult result = mapSchema.validate(customer);
