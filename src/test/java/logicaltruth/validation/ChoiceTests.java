@@ -15,11 +15,11 @@ import static logicaltruth.validation.custom.CustomerConstraints.CustomerType.CH
 import static logicaltruth.validation.constraint.common.StringConstraints.contains;
 import static logicaltruth.validation.constraint.common.StringConstraints.stringRequired;
 import static logicaltruth.validation.constraint.common.Value.required;
-import static logicaltruth.validation.fluent.ChoiceHelper.constraintCase;
-import static logicaltruth.validation.fluent.ChoiceHelper.constraintChoice;
-import static logicaltruth.validation.fluent.ChoiceHelper.when;
-import static logicaltruth.validation.fluent.ValidationHelper.asConstraint;
-import static logicaltruth.validation.fluent.ValidationHelper.asFunction;
+import static logicaltruth.validation.dsl.ChoiceHelper.constraintCase;
+import static logicaltruth.validation.dsl.ChoiceHelper.constraintChoice;
+import static logicaltruth.validation.dsl.ChoiceHelper.when;
+import static logicaltruth.validation.dsl.ValidationHelper.asConstraint;
+import static logicaltruth.validation.dsl.ValidationHelper.asFunction;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 

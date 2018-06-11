@@ -1,4 +1,4 @@
-package logicaltruth.validation.fluent;
+package logicaltruth.validation.dsl;
 
 import logicaltruth.validation.constraint.Constraint;
 import logicaltruth.validation.constraint.ValidationResult;
