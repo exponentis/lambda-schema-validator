@@ -1,5 +1,6 @@
 package logicaltruth.validation.choice;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -16,9 +17,7 @@ public class Choice<T, R, C> implements Function<T, R> {
 
   public static <T, R, C> Choice<T, R, C> with(Function<T, C> router, Consumer<Choice<T, R, C>>... fields) {
     Choice<T, R, C> sl = with(router);
-    for(Consumer<Choice<T, R, C>> field : fields) {
-      field.accept(sl);
-    }
+    Arrays.stream(fields).forEach(field -> field.accept(sl));
     return sl;
   }
 
