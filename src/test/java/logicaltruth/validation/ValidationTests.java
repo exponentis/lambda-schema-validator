@@ -598,7 +598,7 @@ public class ValidationTests {
       put("someList", Arrays.asList(1, 3, 4, 2));
       put("someMap", new HashMap() {{
         put("a", "x1");
-        put("b", "xyz");
+        put(8, "xyz");
         put("c", "x2");
       }});
     }};
@@ -626,7 +626,7 @@ public class ValidationTests {
       put("someList", Arrays.asList(1, 3, 7, 2));
       put("someMap", new HashMap() {{
         put("a", "x1");
-        put("b", "yz");
+        put(8, "yz");
         put("c", "x2");
       }});
     }};
@@ -638,7 +638,7 @@ public class ValidationTests {
     assertThat(result.getConstraintViolations(), hasSize(3));
     assertEquals(result.getConstraintViolations().get(0).getContext(), ".name");
     assertEquals(result.getConstraintViolations().get(1).getContext(), ".someList[2]");
-    assertEquals(result.getConstraintViolations().get(2).getContext(), ".someMap[b]");
+    assertEquals(result.getConstraintViolations().get(2).getContext(), ".someMap[8]");
   }
 
   @Test
