@@ -1,8 +1,8 @@
 package logicaltruth.validation;
 
+import logicaltruth.validation.choice.Choice;
 import logicaltruth.validation.constraint.Constraint;
 import logicaltruth.validation.constraint.ValidationResult;
-import logicaltruth.validation.choice.Choice;
 import logicaltruth.validation.custom.Customer;
 import logicaltruth.validation.custom.CustomerConstraints;
 import logicaltruth.validation.schema.BeanSchema;
@@ -10,14 +10,12 @@ import org.junit.Test;
 
 import java.util.function.Function;
 
-import static logicaltruth.validation.custom.CustomerConstraints.CustomerType.ADULT;
-import static logicaltruth.validation.custom.CustomerConstraints.CustomerType.CHILD;
+import static logicaltruth.validation.choice.Choice.with;
 import static logicaltruth.validation.constraint.common.StringConstraints.contains;
 import static logicaltruth.validation.constraint.common.StringConstraints.stringRequired;
-import static logicaltruth.validation.constraint.common.Value.required;
-import static logicaltruth.validation.dsl.ChoiceHelper.constraintCase;
-import static logicaltruth.validation.dsl.ChoiceHelper.constraintChoice;
-import static logicaltruth.validation.dsl.ChoiceHelper.when;
+import static logicaltruth.validation.custom.CustomerConstraints.CustomerType.ADULT;
+import static logicaltruth.validation.custom.CustomerConstraints.CustomerType.CHILD;
+import static logicaltruth.validation.dsl.ChoiceHelper.*;
 import static logicaltruth.validation.dsl.ValidationHelper.asConstraint;
 import static logicaltruth.validation.dsl.ValidationHelper.asFunction;
 import static org.hamcrest.CoreMatchers.is;
@@ -39,9 +37,10 @@ public class ChoiceTests {
 
   @Test
   public void choice_simple_multiple() {
-    Function<String, Integer> flow = Choice.with(x -> x.contains("a"),
-      when(true, x -> -1),
-      when(false, x -> 1));
+    Function<String, Integer> flow =
+      with(x -> x.contains("a"),
+        when(true, x -> -1),
+        when(false, x -> 1));
 
     Integer result = flow.apply("abc");
     assertThat(result, is(-1));
@@ -54,7 +53,7 @@ public class ChoiceTests {
   public void constraint_cases_generic_choice() {
 
     Function<String, ValidationResult> aSwitch =
-      Choice.with(x -> x.length() > 2,
+      with(x -> x.length() > 2,
         constraintCase(true, contains("a")),
         constraintCase(false, contains("b"))
       );
@@ -98,7 +97,7 @@ public class ChoiceTests {
   public void constraint_generic_choice() {
 
     Function<String, ValidationResult> aSwitch =
-      Choice.with(x -> x.length() > 2,
+      with(x -> x.length() > 2,
         when(true, s -> contains("a").validate(s)),
         when(false, asFunction(contains("b")))
       );
@@ -119,7 +118,7 @@ public class ChoiceTests {
   @Test
   public void constraint_choice_variation() {
     Constraint<String> constraint = asConstraint(
-      Choice.with(x -> x.length() > 2,
+      with(x -> x.length() > 2,
         when(true, s -> contains("a").validate(s)),
         when(false, asFunction(contains("b")))
       ));
