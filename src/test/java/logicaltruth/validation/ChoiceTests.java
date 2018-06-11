@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import java.util.function.Function;
 
-import static logicaltruth.validation.choice.Choice.with;
+import static logicaltruth.validation.choice.Choice.choice;
 import static logicaltruth.validation.constraint.common.StringConstraints.contains;
 import static logicaltruth.validation.constraint.common.StringConstraints.stringRequired;
 import static logicaltruth.validation.custom.CustomerConstraints.CustomerType.ADULT;
@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ChoiceTests {
   @Test
   public void choice_simple_default() {
-    Function<String, Integer> flow = Choice.<String, Integer, Boolean>with(x -> x.contains("a"))
+    Function<String, Integer> flow = Choice.<String, Integer, Boolean>choice(x -> x.contains("a"))
       .when(true).then(x -> -1)
       .withDefault(String::length);
 
@@ -38,9 +38,9 @@ public class ChoiceTests {
   @Test
   public void choice_simple_multiple() {
     Function<String, Integer> flow =
-      with(x -> x.contains("a"),
-        when(true, x -> -1),
-        when(false, x -> 1));
+      choice(x -> x.contains("a"),
+        choiceCase(true, x -> -1),
+        choiceCase(false, x -> 1));
 
     Integer result = flow.apply("abc");
     assertThat(result, is(-1));
@@ -53,7 +53,7 @@ public class ChoiceTests {
   public void constraint_cases_generic_choice() {
 
     Function<String, ValidationResult> aSwitch =
-      with(x -> x.length() > 2,
+      choice(x -> x.length() > 2,
         constraintCase(true, contains("a")),
         constraintCase(false, contains("b"))
       );
@@ -97,9 +97,9 @@ public class ChoiceTests {
   public void constraint_generic_choice() {
 
     Function<String, ValidationResult> aSwitch =
-      with(x -> x.length() > 2,
-        when(true, s -> contains("a").validate(s)),
-        when(false, asFunction(contains("b")))
+      choice(x -> x.length() > 2,
+        choiceCase(true, s -> contains("a").validate(s)),
+        choiceCase(false, asFunction(contains("b")))
       );
 
     ValidationResult result = aSwitch.apply("a12");
@@ -118,9 +118,9 @@ public class ChoiceTests {
   @Test
   public void constraint_choice_variation() {
     Constraint<String> constraint = asConstraint(
-      with(x -> x.length() > 2,
-        when(true, s -> contains("a").validate(s)),
-        when(false, asFunction(contains("b")))
+      choice(x -> x.length() > 2,
+        choiceCase(true, s -> contains("a").validate(s)),
+        choiceCase(false, asFunction(contains("b")))
       ));
 
     ValidationResult result = constraint.validate("a12");

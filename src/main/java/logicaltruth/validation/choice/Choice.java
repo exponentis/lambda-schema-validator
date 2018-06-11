@@ -11,12 +11,12 @@ public class Choice<T, R, C> implements Function<T, R> {
   private Map<C, Function<T, R>> handlers = new HashMap<>();
   private Function<T, R> defaultValue;
 
-  public static <T, R, C> Choice<T, R, C> with(Function<T, C> router) {
+  public static <T, R, C> Choice<T, R, C> choice(Function<T, C> router) {
     return new Choice().router(router);
   }
 
-  public static <T, R, C> Choice<T, R, C> with(Function<T, C> router, Consumer<Choice<T, R, C>>... fields) {
-    Choice<T, R, C> sl = with(router);
+  public static <T, R, C> Choice<T, R, C> choice(Function<T, C> router, Consumer<Choice<T, R, C>>... fields) {
+    Choice<T, R, C> sl = choice(router);
     Arrays.stream(fields).forEach(field -> field.accept(sl));
     return sl;
   }
