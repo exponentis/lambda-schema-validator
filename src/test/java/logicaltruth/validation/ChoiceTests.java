@@ -2,8 +2,7 @@ package logicaltruth.validation;
 
 import logicaltruth.validation.constraint.Constraint;
 import logicaltruth.validation.constraint.ValidationResult;
-import logicaltruth.validation.constraint.common.StringConstraints;
-import logicaltruth.validation.functional.Choice;
+import logicaltruth.validation.choice.Choice;
 import logicaltruth.validation.schema.BeanSchema;
 import org.junit.Test;
 

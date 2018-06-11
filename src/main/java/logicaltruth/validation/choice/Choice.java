@@ -1,4 +1,4 @@
-package logicaltruth.validation.functional;
+package logicaltruth.validation.choice;
 
 import java.util.HashMap;
 import java.util.Map;

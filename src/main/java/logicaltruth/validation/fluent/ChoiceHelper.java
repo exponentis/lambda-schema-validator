@@ -2,7 +2,7 @@ package logicaltruth.validation.fluent;
 
 import logicaltruth.validation.constraint.Constraint;
 import logicaltruth.validation.constraint.ValidationResult;
-import logicaltruth.validation.functional.Choice;
+import logicaltruth.validation.choice.Choice;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
