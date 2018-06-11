@@ -256,13 +256,16 @@ public class ValidationTests {
       .field("age", Integer.class, integerRequired.orElseBreak().and(greaterThan(18)))
       .field("address", Map.class, Value.<Map>required().orElseBreak().and(addressSchema));
 
-    Map address = new HashMap();
-    address.put("street", "0123456789");
+    Map address = new HashMap() {{
+      put("street", "0123456789");
+    }};
 
-    Map customer = new HashMap();
-    customer.put("name", "abcde");
-    customer.put("age", 25);
-    customer.put("address", address);
+    Map customer = new HashMap() {{
+      put("name", "abcde");
+      put("age", 25);
+      put("address", address);
+
+    }};
 
     ValidationResult result = customerSchema.validate(customer);
 
@@ -281,13 +284,16 @@ public class ValidationTests {
       .field("age", Integer.class, integerRequired.orElseBreak().and(greaterThan(18)))
       .field("address", Map.class, Value.<Map>required().orElseBreak().and(addressSchema));
 
-    Map address = new HashMap();
-    address.put("street", "0123456789x");
+    Map address = new HashMap() {{
+      put("street", "0123456789x");
+    }};
 
-    Map customer = new HashMap();
-    customer.put("name", "abcde");
-    customer.put("age", 15);
-    customer.put("address", address);
+
+    Map customer = new HashMap() {{
+      put("name", "abcde");
+      put("age", 15);
+      put("address", address);
+    }};
 
     ValidationResult result = customerSchema.validate(customer);
 
@@ -308,18 +314,19 @@ public class ValidationTests {
       .field("age", Integer.class, integerRequired.orElseBreak().and(greaterThan(18)))
       .field("address2", Map.class, Value.<Map>required().orElseBreak().and(addressSchema));
 
-    Map address = new HashMap();
-    address.put("street", "0123456789");
+    Map address = new HashMap() {{
+      put("street", "0123456789");
+    }};
 
-    Customer cust = new Customer();
-    cust.setName("abcde");
-    cust.setAge(25);
-    cust.setAddress2(address);
+    Customer customer = new Customer();
+    customer.setName("abcde");
+    customer.setAge(25);
+    customer.setAddress2(address);
 
-    ValidationResult result = customerSchema.validate(cust);
+    ValidationResult result = customerSchema.validate(customer);
 
     assertEquals(result.isValid(), true);
-    assertThat(result.getValue(), is(cust));
+    assertThat(result.getValue(), is(customer));
     assertThat(result.getConstraintViolations(), hasSize(0));
   }
 
@@ -333,18 +340,19 @@ public class ValidationTests {
       .field("age", Integer.class, integerRequired.orElseBreak().and(greaterThan(18)))
       .field("address2", Map.class, Value.<Map>required().orElseBreak().and(addressSchema));
 
-    Map address = new HashMap();
-    address.put("street", "0123456789x");
+    Map address = new HashMap() {{
+      put("street", "0123456789x");
+    }};
 
-    Customer cust = new Customer();
-    cust.setName("abcdef");
-    cust.setAge(25);
-    cust.setAddress2(address);
+    Customer customer = new Customer();
+    customer.setName("abcdef");
+    customer.setAge(25);
+    customer.setAddress2(address);
 
-    ValidationResult result = customerSchema.validate(cust);
+    ValidationResult result = customerSchema.validate(customer);
 
     assertEquals(result.isValid(), false);
-    assertThat(result.getValue(), is(cust));
+    assertThat(result.getValue(), is(customer));
     assertThat(result.getConstraintViolations(), hasSize(2));
     assertEquals(result.getConstraintViolations().get(0).getContext(), ".address2.street");
     assertEquals(result.getConstraintViolations().get(1).getContext(), ".name");
@@ -432,15 +440,16 @@ public class ValidationTests {
       .listField("someList", Integer.class, Value.<Integer>listRequired().orElseBreak().and(listConstraint(max(5))))
       .mapField("someMap", String.class, mapRequired(String.class).orElseBreak().and((mapConstraint(contains("x")))));
 
-    Map customer = new HashMap();
-    customer.put("name", "abc");
-    customer.put("age", 25);
-    customer.put("someList", Arrays.asList(1, 3, 4, 2));
-    customer.put("someMap", new HashMap() {{
-      put("a", "x1");
-      put("b", "xyz");
-      put("c", "x2");
-    }});
+    Map customer = new HashMap() {{
+      put("name", "abc");
+      put("age", 25);
+      put("someList", Arrays.asList(1, 3, 4, 2));
+      put("someMap", new HashMap() {{
+        put("a", "x1");
+        put("b", "xyz");
+        put("c", "x2");
+      }});
+    }};
 
     ValidationResult result = customerSchema.validate(customer);
 
@@ -458,15 +467,16 @@ public class ValidationTests {
       .listField("someList", Integer.class, Value.<Integer>listRequired().orElseBreak().and(listConstraint(max(5))))
       .mapField("someMap", String.class, mapRequired(String.class).orElseBreak().and((mapConstraint(contains("x")))));
 
-    Map customer = new HashMap();
-    customer.put("name", "abcdef");
-    customer.put("age", 25);
-    customer.put("someList", Arrays.asList(1, 3, 4, 7, 2));
-    customer.put("someMap", new HashMap() {{
-      put("a", "x1");
-      put("b", "yz");
-      put("c", "x2");
-    }});
+    Map customer = new HashMap() {{
+      put("name", "abcdef");
+      put("age", 25);
+      put("someList", Arrays.asList(1, 3, 4, 7, 2));
+      put("someMap", new HashMap() {{
+        put("a", "x1");
+        put("b", "yz");
+        put("c", "x2");
+      }});
+    }};
 
     ValidationResult result = customerSchema.validate(customer);
 
@@ -580,15 +590,16 @@ public class ValidationTests {
       mapField("someMap", String.class, mapRequired(String.class).orElseBreak().and((mapConstraint(contains("x")))))
     );
 
-    Map customer = new HashMap();
-    customer.put("name", "abc");
-    customer.put("age", 25);
-    customer.put("someList", Arrays.asList(1, 3, 4, 2));
-    customer.put("someMap", new HashMap() {{
-      put("a", "x1");
-      put("b", "xyz");
-      put("c", "x2");
-    }});
+    Map customer = new HashMap() {{
+      put("name", "abc");
+      put("age", 25);
+      put("someList", Arrays.asList(1, 3, 4, 2));
+      put("someMap", new HashMap() {{
+        put("a", "x1");
+        put("b", "xyz");
+        put("c", "x2");
+      }});
+    }};
 
     ValidationResult result = customerSchema.validate(customer);
 
