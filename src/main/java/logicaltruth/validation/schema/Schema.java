@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 
 public abstract class Schema<K> implements Constraint<K> {
-  protected SortedMap<String, Constraint<K>> fieldConstraintMap = new TreeMap<>();
+  private SortedMap<String, Constraint<K>> fieldConstraintMap = new TreeMap<>();
 
   public <T> Schema<K> projection(String name, Function<K, T> lens, Constraint<T> constraint) {
     fieldConstraintMap.put(name, value -> constraint.validate(lens.apply(value)));
@@ -50,5 +50,9 @@ public abstract class Schema<K> implements Constraint<K> {
     return results;
   }
 
-  public abstract <T> Schema<K> field(String name, Class<T> fieldType, Constraint<T> constraint);
+  public <T> Schema<K> field(String name, Class<T> fieldType, Constraint<T> constraint) {
+    return projection(name, fieldGetter(name, fieldType), constraint);
+  }
+
+  public abstract <T> Function<K, T> fieldGetter(String name, Class<T> fieldType);
 }

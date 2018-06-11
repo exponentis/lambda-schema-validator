@@ -13,10 +13,8 @@ public class BeanSchema<K> extends Schema<K> {
   }
 
   @Override
-  public <T> Schema<K> field(String name, Class<T> fieldType, Constraint<T> constraint) {
+  public <T> Function<K, T> fieldGetter(String name, Class<T> fieldType) {
     String properName = name.substring(0, 1).toUpperCase() + name.substring(1);
-    Function<K, T> lens = LambdaMetafactoryHelper.getGetterLambda("get" + properName, clazz, fieldType);
-    projection(name, lens, constraint);
-    return this;
+    return LambdaMetafactoryHelper.getGetterLambda("get" + properName, clazz, fieldType);
   }
 }

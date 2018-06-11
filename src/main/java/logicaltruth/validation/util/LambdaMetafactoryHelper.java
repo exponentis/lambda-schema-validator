@@ -18,7 +18,7 @@ public class LambdaMetafactoryHelper {
       MethodHandle factory = site.getTarget();
       return (Function<B, F>) factory.invoke();
     } catch(Throwable throwable) {
-      throw new RuntimeException("Unable to build lambda getter");
+      throw new RuntimeException("Unable to build lambda fieldGetter");
     }
   }
 }
