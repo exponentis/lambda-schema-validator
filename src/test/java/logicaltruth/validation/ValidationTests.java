@@ -896,6 +896,16 @@ public class ValidationTests {
     assertEquals(result.getConstraintViolations().get(1).getContext(), ".someList[2]");
     assertEquals(result.getConstraintViolations().get(2).getContext(), ".someMap[b]");
 
+    result = mapSchemaX.validate(customerMap);
+
+    assertEquals(result.isValid(), false);
+    assertThat(result.getValue(), is(customerMap));
+    assertThat(result.getConstraintViolations(), hasSize(4));
+    assertEquals(result.getConstraintViolations().get(0).getContext(), ".extra");
+    assertEquals(result.getConstraintViolations().get(1).getContext(), ".name");
+    assertEquals(result.getConstraintViolations().get(2).getContext(), ".someList[2]");
+    assertEquals(result.getConstraintViolations().get(3).getContext(), ".someMap[b]");
+
     Customer customer = new Customer();
     customer.setName("abcdef");
     customer.setAge(25);
@@ -917,16 +927,6 @@ public class ValidationTests {
     assertEquals(result.getConstraintViolations().get(0).getContext(), ".name");
     assertEquals(result.getConstraintViolations().get(1).getContext(), ".someList[2]");
     assertEquals(result.getConstraintViolations().get(2).getContext(), ".someMap[b]");
-
-    result = mapSchemaX.validate(customerMap);
-
-    assertEquals(result.isValid(), false);
-    assertThat(result.getValue(), is(customerMap));
-    assertThat(result.getConstraintViolations(), hasSize(4));
-    assertEquals(result.getConstraintViolations().get(0).getContext(), ".extra");
-    assertEquals(result.getConstraintViolations().get(1).getContext(), ".name");
-    assertEquals(result.getConstraintViolations().get(2).getContext(), ".someList[2]");
-    assertEquals(result.getConstraintViolations().get(3).getContext(), ".someMap[b]");
 
     result = beanSchemaX.validate(customer);
 
