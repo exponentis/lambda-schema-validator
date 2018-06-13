@@ -7,6 +7,9 @@ import java.util.*;
 public class Fields {
 
   private SortedMap<String, Field> constraintMap = new TreeMap<>();
+  private SortedMap<String, Fields> requiredChildMap = new TreeMap<>();
+  private SortedMap<String, Fields> optionalChildMap = new TreeMap<>();
+
 
   public <T> Fields field(String name, Class<T> fieldType, Constraint<T> constraint) {
     constraintMap.put(name, new Field(name, fieldType, constraint));
@@ -29,7 +32,25 @@ public class Fields {
     return field(name, (Class<Map<Object, T>>) (Object) Map.class, constraint);
   }
 
-  public List<Field> asList() {
+  public Fields requiredField(String name, Fields child) {
+    requiredChildMap.put(name, child);
+    return this;
+  }
+
+  public Fields optionalField(String name, Fields child) {
+    optionalChildMap.put(name, child);
+    return this;
+  }
+
+  public List<Field> fields() {
     return new ArrayList(constraintMap.values());
+  }
+
+  public Map<String, Fields> requiredChildren() {
+    return requiredChildMap;
+  }
+
+  public SortedMap<String, Fields> optionalChildren() {
+    return optionalChildMap;
   }
 }

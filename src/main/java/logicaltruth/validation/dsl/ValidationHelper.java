@@ -2,6 +2,7 @@ package logicaltruth.validation.dsl;
 
 import logicaltruth.validation.constraint.Constraint;
 import logicaltruth.validation.constraint.ValidationResult;
+import logicaltruth.validation.constraint.common.Value;
 import logicaltruth.validation.constraint.impl.StandardConstraint;
 import logicaltruth.validation.dsl.field.Fields;
 import logicaltruth.validation.schema.BeanSchema;
@@ -9,14 +10,11 @@ import logicaltruth.validation.schema.MapSchema;
 import logicaltruth.validation.schema.Schema;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ValidationHelper {
 
@@ -52,7 +50,11 @@ public class ValidationHelper {
 
   public static Schema<Map> schema(Fields listCollection, Consumer<Schema>... fields) {
     Schema<Map> schema = new MapSchema();
-    listCollection.asList().forEach(f -> schema.field(f.getName(), f.getType(), f.getConstraint()));
+    listCollection.fields().forEach(f -> schema.field(f.getName(), f.getType(), f.getConstraint()));
+    listCollection.requiredChildren().forEach((k, v) -> schema.field(k, Map.class,
+      Value.<Map>required().orElseBreak().and(schema(v))));
+    listCollection.optionalChildren().forEach((k, v) -> schema.field(k, Map.class,
+      Value.<Map>optional().or(schema(v))));
     listOfFields(schema, fields);
     return schema;
   }
@@ -65,7 +67,7 @@ public class ValidationHelper {
 
   public static <T> Schema<T> schema(Class<T> clazz, Fields listCollection, Consumer<Schema>... fields) {
     Schema<T> schema = new BeanSchema<T>(clazz);
-    listCollection.asList().forEach(f -> schema.field(f.getName(), f.getType(), f.getConstraint()));
+    listCollection.fields().forEach(f -> schema.field(f.getName(), f.getType(), f.getConstraint()));
     listOfFields(schema, fields);
     return schema;
   }
@@ -80,16 +82,24 @@ public class ValidationHelper {
     Arrays.stream(fields).forEach(field -> field.accept(schema));
   }
 
-  public static <T> Consumer<Fields> fieldConstraint(String name, Class<T> fieldType, Constraint<T> constraint) {
+  public static <T> Consumer<Fields> _field(String name, Class<T> fieldType, Constraint<T> constraint) {
     return s -> s.field(name, fieldType, constraint);
   }
 
-  public static <T> Consumer<Fields> listFieldConstraint(String name, Class<T> fieldType, Constraint<List<T>> constraint) {
+  public static <T> Consumer<Fields> _listField(String name, Class<T> fieldType, Constraint<List<T>> constraint) {
     return s -> s.listField(name, fieldType, constraint);
   }
 
-  public static <T> Consumer<Fields> mapFieldConstraint(String name, Class<T> fieldType, Constraint<Map<Object, T>> constraint) {
+  public static <T> Consumer<Fields> _mapField(String name, Class<T> fieldType, Constraint<Map<Object, T>> constraint) {
     return s -> s.mapField(name, fieldType, constraint);
+  }
+
+  public static <T> Consumer<Fields> _requiredField(String name, Fields fields) {
+    return s -> s.requiredField(name, fields);
+  }
+
+  public static <T> Consumer<Fields> _optionalField(String name, Fields fields) {
+    return s -> s.optionalField(name, fields);
   }
 
   public static <T> Function<T, ValidationResult> asFunction(Constraint<T> constraint) {
