@@ -4,6 +4,7 @@ import logicaltruth.validation.constraint.ValidationResult;
 import logicaltruth.validation.constraint.common.Value;
 import logicaltruth.validation.custom.Address;
 import logicaltruth.validation.custom.Customer;
+import logicaltruth.validation.dsl.field.Fields;
 import logicaltruth.validation.schema.BeanSchema;
 import logicaltruth.validation.schema.MapSchema;
 import logicaltruth.validation.schema.Schema;
@@ -851,5 +852,90 @@ public class ValidationTests {
     assertEquals(result.getConstraintViolations().get(0).getContext(), ".name");
     assertEquals(result.getConstraintViolations().get(1).getContext(), ".someMap[a][2]");
     assertEquals(result.getConstraintViolations().get(2).getContext(), ".someMap[b][0]");
+  }
+
+  @Test
+  public void map_and_bean_schema_from_fields_def() {
+    Fields fields = fields(
+      fieldConstraint("name", String.class, stringRequired.and(rangeLength(2, 5))),
+      fieldConstraint("age", Integer.class, integerRequired.orElseBreak().and(greaterThan(18))),
+      listFieldConstraint("someList", Integer.class, Value.<Integer>listRequired().orElseBreak().and(listConstraint(max(5)))),
+      mapFieldConstraint("someMap", String.class, mapRequired(String.class).orElseBreak().and((mapConstraint(contains("x")))))
+    );
+
+    Schema mapSchema = schema(fields);
+    Schema beanSchema = schema(Customer.class, fields);
+
+    Schema mapSchemaX = schema(
+      fields,
+      field("extra", String.class, stringRequired)
+    );
+
+    Schema beanSchemaX = schema(Customer.class,
+      fields,
+      field("driversLicense", String.class, stringRequired)
+    );
+
+    Map customerMap = new HashMap() {{
+      put("name", "abcdef");
+      put("age", 25);
+      put("someList", Arrays.asList(1, 3, 7, 2));
+      put("someMap", new HashMap() {{
+        put("a", "x1");
+        put("b", "yz");
+        put("c", "x2");
+      }});
+    }};
+
+    ValidationResult result = mapSchema.validate(customerMap);
+
+    assertEquals(result.isValid(), false);
+    assertThat(result.getValue(), is(customerMap));
+    assertThat(result.getConstraintViolations(), hasSize(3));
+    assertEquals(result.getConstraintViolations().get(0).getContext(), ".name");
+    assertEquals(result.getConstraintViolations().get(1).getContext(), ".someList[2]");
+    assertEquals(result.getConstraintViolations().get(2).getContext(), ".someMap[b]");
+
+    Customer customer = new Customer();
+    customer.setName("abcdef");
+    customer.setAge(25);
+
+    customer.setSomeList(Arrays.asList(1, 3, 7, 2));
+
+    customer.setSomeMap(new HashMap<String, String>() {{
+      put("a", "x1");
+      put("b", "yz");
+      put("c", "x2");
+    }});
+
+
+    result = beanSchema.validate(customer);
+
+    assertEquals(result.isValid(), false);
+    assertThat(result.getValue(), is(customer));
+    assertThat(result.getConstraintViolations(), hasSize(3));
+    assertEquals(result.getConstraintViolations().get(0).getContext(), ".name");
+    assertEquals(result.getConstraintViolations().get(1).getContext(), ".someList[2]");
+    assertEquals(result.getConstraintViolations().get(2).getContext(), ".someMap[b]");
+
+    result = mapSchemaX.validate(customerMap);
+
+    assertEquals(result.isValid(), false);
+    assertThat(result.getValue(), is(customerMap));
+    assertThat(result.getConstraintViolations(), hasSize(4));
+    assertEquals(result.getConstraintViolations().get(0).getContext(), ".extra");
+    assertEquals(result.getConstraintViolations().get(1).getContext(), ".name");
+    assertEquals(result.getConstraintViolations().get(2).getContext(), ".someList[2]");
+    assertEquals(result.getConstraintViolations().get(3).getContext(), ".someMap[b]");
+
+    result = beanSchemaX.validate(customer);
+
+    assertEquals(result.isValid(), false);
+    assertThat(result.getValue(), is(customer));
+    assertThat(result.getConstraintViolations(), hasSize(4));
+    assertEquals(result.getConstraintViolations().get(0).getContext(), ".driversLicense");
+    assertEquals(result.getConstraintViolations().get(1).getContext(), ".name");
+    assertEquals(result.getConstraintViolations().get(2).getContext(), ".someList[2]");
+    assertEquals(result.getConstraintViolations().get(3).getContext(), ".someMap[b]");
   }
 }
