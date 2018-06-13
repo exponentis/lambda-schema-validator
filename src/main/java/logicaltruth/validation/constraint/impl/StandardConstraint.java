@@ -26,8 +26,7 @@ public class StandardConstraint<K> implements Constraint<K> {
   }
 
   public StandardConstraint<K> withMessage(String message) {
-    this.message = message;
-    return this;
+    return withPredicate(predicate, message);
   }
 
   @Override

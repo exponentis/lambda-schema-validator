@@ -28,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
 
-public class ValidationTests {
+public class BasicValidationTests {
 
   @Test
   public void string_contraint_valid() {

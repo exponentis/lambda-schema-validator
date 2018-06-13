@@ -28,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
 
-public class ValidationDslTests {
+public class SchemaDslTests {
   @Test
   public void map_schema_nested_declarative_valid() {
 
