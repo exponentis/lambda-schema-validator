@@ -11,9 +11,9 @@ public class LambdaMetafactoryHelper {
       MethodHandle target = caller.findVirtual(beanClass, methodName, getter);
       MethodType func = target.type();
       CallSite site = LambdaMetafactory.metafactory(caller,
-          "apply",
-          MethodType.methodType(Function.class),
-          func.generic(), target, func);
+        "apply",
+        MethodType.methodType(Function.class),
+        func.generic(), target, func);
 
       MethodHandle factory = site.getTarget();
       return (Function<B, F>) factory.invoke();

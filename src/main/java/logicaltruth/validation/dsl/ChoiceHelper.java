@@ -1,8 +1,8 @@
 package logicaltruth.validation.dsl;
 
+import logicaltruth.validation.choice.Choice;
 import logicaltruth.validation.constraint.Constraint;
 import logicaltruth.validation.constraint.ValidationResult;
-import logicaltruth.validation.choice.Choice;
 
 import java.util.Arrays;
 import java.util.function.Consumer;

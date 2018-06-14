@@ -5,7 +5,6 @@ import logicaltruth.validation.constraint.common.Value;
 import logicaltruth.validation.custom.Address;
 import logicaltruth.validation.custom.Customer;
 import logicaltruth.validation.dsl.field.Fields;
-import logicaltruth.validation.schema.BeanSchema;
 import logicaltruth.validation.schema.MapSchema;
 import logicaltruth.validation.schema.Schema;
 import org.junit.Test;
@@ -19,7 +18,6 @@ import static logicaltruth.validation.constraint.common.CollectionValidators.*;
 import static logicaltruth.validation.constraint.common.IntegerConstraints.*;
 import static logicaltruth.validation.constraint.common.StringConstraints.*;
 import static logicaltruth.validation.constraint.common.Value.mapRequired;
-import static logicaltruth.validation.constraint.impl.StandardConstraint.withPredicate;
 import static logicaltruth.validation.custom.CustomerConstraints.customerExists;
 import static logicaltruth.validation.custom.CustomerConstraints.samePasswords;
 import static logicaltruth.validation.dsl.ValidationHelper.*;
@@ -555,7 +553,7 @@ public class SchemaDslTests {
       put("age", 25);
       put("address", new HashMap() {{
         put("street", "0123456789x");
-        }});
+      }});
       put("someList", Arrays.asList(1, 3, 7, 2));
       put("someMap", new HashMap() {{
         put("a", "x1");

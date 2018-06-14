@@ -1,7 +1,5 @@
 package logicaltruth.validation.schema;
 
-import logicaltruth.validation.constraint.Constraint;
-
 import java.util.Map;
 import java.util.function.Function;
 

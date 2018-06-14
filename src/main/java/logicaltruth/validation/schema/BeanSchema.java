@@ -1,6 +1,5 @@
 package logicaltruth.validation.schema;
 
-import logicaltruth.validation.constraint.Constraint;
 import logicaltruth.validation.util.LambdaMetafactoryHelper;
 
 import java.util.function.Function;

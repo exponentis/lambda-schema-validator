@@ -18,7 +18,6 @@ import static logicaltruth.validation.constraint.common.CollectionValidators.map
 import static logicaltruth.validation.constraint.common.IntegerConstraints.*;
 import static logicaltruth.validation.constraint.common.StringConstraints.*;
 import static logicaltruth.validation.constraint.common.Value.mapRequired;
-import static logicaltruth.validation.constraint.impl.StandardConstraint.withPredicate;
 import static logicaltruth.validation.dsl.ValidationHelper.field;
 import static logicaltruth.validation.dsl.ValidationHelper.schema;
 import static org.hamcrest.CoreMatchers.is;
